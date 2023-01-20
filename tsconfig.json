@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "lib": ["es2017"],
+    "noImplicitAny": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "inlineSources": true,
+    // Set `sourceRoot` to  `/` to strip the build path prefix from
+    // generated source code references. This allows Sentry to match source files
+    // relative to your source root folder.
+    "sourceRoot": "/",
+    "strict": true,
+    "target": "ES6",
+    "module": "CommonJS",
+    "outDir": "dist",
+    "rootDir": "./",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "types/*": ["@types/*", "node"],
+      "~tests/*": ["tests/*"]
+    }
+  },
+  "include": ["./**/*.ts", "@types/*.d.ts"],
+  "exclude": ["node_modules/**/*", ".webpack/**/*", "_warmup/**/*", ".vscode/**/*"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
+}
