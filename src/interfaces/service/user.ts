@@ -1,7 +1,4 @@
-
-import {
-  CreateUserVariables as RepoCreateVariables
-} from '../repository/user';
+import { CreateUserVariables as RepoCreateVariables } from '../repository/user';
 
 export type UserReturnVars = {
   id: number;

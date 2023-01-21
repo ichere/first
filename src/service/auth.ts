@@ -31,5 +31,4 @@ export class AuthenticationServiceImpl implements AuthenticationService {
     }
     return decodeToken as SignTokenVars;
   }
-
 }

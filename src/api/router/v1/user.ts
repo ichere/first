@@ -3,15 +3,9 @@
 import express, { Request, Response } from 'express';
 
 import { StatusCode } from '@/api/codes';
-import {
-  createUserValidator,
-  loginUserValidator
-} from '@/api/input/validator';
+import { createUserValidator, loginUserValidator } from '@/api/input/validator';
 import { apiResponse, expressError } from '@/api/util';
-import {
-  CreateUserVariables,
-  LoginVariables
-} from '@/interfaces/service/user';
+import { CreateUserVariables, LoginVariables } from '@/interfaces/service/user';
 import { getUserService } from '@/ioc/provider';
 
 const router = express.Router();

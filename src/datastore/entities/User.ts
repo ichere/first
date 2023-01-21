@@ -1,6 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-
 @Entity('user', { schema: 'public' })
 export class User {
   static entityName = 'User';
@@ -19,7 +18,6 @@ export class User {
   })
   userName: string;
 
-
   @Column('character varying', {
     unique: true,
     length: 256,
@@ -32,5 +30,4 @@ export class User {
     comment: "The user's password",
   })
   password: string;
-
 }

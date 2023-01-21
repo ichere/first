@@ -20,14 +20,12 @@ export function parameterValidationMiddleware(): RequestHandler {
   };
 }
 
-
-
 export function createUserValidator(): RequestHandler[] {
   return [
     body('userName').isString().notEmpty().withMessage('User name field cannot be empty'),
     body('email').isEmail().notEmpty().withMessage('Provide a valid email address'),
     body('password').isString().notEmpty().withMessage('Password field cannot be empty'),
-    
+
     parameterValidationMiddleware(),
   ];
 }

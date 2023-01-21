@@ -1,25 +1,20 @@
-
 import { User } from '@/datastore/entities';
 import { UserRepository } from '@/interfaces/repository';
 import { AuthenticationService } from '@/interfaces/service';
 import {
   CreateUserVariables,
-  LoginVariables, UserReturnVars,
+  LoginVariables,
+  UserReturnVars,
   UserReturnVarsWithToken,
-  UserService
+  UserService,
 } from '@/interfaces/service/user';
-import {
-  AuthenticationError, IllegalArgumentError
-} from '@/utils/errors';
-
+import { AuthenticationError, IllegalArgumentError } from '@/utils/errors';
 
 export class AuthorizingUserService implements UserService {
   public constructor(
     private userRepository: UserRepository,
     private authenticationService: AuthenticationService,
   ) {}
-
-
 
   public async create(vars: CreateUserVariables): Promise<UserReturnVarsWithToken> {
     const email = vars.email.toLowerCase();
@@ -35,7 +30,6 @@ export class AuthorizingUserService implements UserService {
 
     return this.getUserVarsWithToken(createdUser);
   }
-
 
   public async login(loginVars: LoginVariables): Promise<UserReturnVarsWithToken> {
     const foundUser = await this.userRepository.findBy({ email: loginVars.email });
@@ -69,6 +63,4 @@ export class AuthorizingUserService implements UserService {
       token,
     };
   }
-
-
 }

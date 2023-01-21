@@ -2,7 +2,6 @@
 
 import { NextFunction, Request, Response } from 'express';
 
-
 import { StatusCode } from '../codes';
 import { expressError } from '../util';
 
@@ -18,7 +17,6 @@ export async function verifyJWTToken(
         .status(StatusCode.PermissionDenied)
         .json({ message: 'Please supply a token in the header' });
 
-    const jwtToken = Array.isArray(token) ? token[0] : token;
     // @ts-ignore
     req.user = user;
     return next();

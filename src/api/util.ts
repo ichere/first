@@ -5,7 +5,7 @@ import {
   AuthenticationError,
   EntityNotFoundError,
   IllegalArgumentError,
-  PermissionDenied
+  PermissionDenied,
 } from '@/utils/errors';
 
 import { StatusCode } from './codes';
@@ -50,6 +50,3 @@ export const expressError = (res: Response, error: unknown): Response => {
     .status(StatusCode.InternalServerError)
     .json(apiResponse({ message: 'Internal Server error', data: null, success: false }));
 };
-
-
-

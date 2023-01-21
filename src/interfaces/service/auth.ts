@@ -1,4 +1,3 @@
-
 export type SignTokenVars = {
   userName: string;
   userId: number;

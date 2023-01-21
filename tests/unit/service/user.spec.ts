@@ -2,20 +2,13 @@ import { faker } from '@faker-js/faker';
 import { mock } from 'jest-mock-extended';
 
 import { UserRepository } from '@/interfaces/repository';
-import {
-  AuthenticationService, UserService
-} from '@/interfaces/service';
-import {
-  CreateUserVariables,
-  LoginVariables
-} from '@/interfaces/service/user';
+import { AuthenticationService, UserService } from '@/interfaces/service';
+import { CreateUserVariables, LoginVariables } from '@/interfaces/service/user';
 import { AuthorizingUserService } from '@/service/user';
 import { AuthenticationError } from '@/utils/errors';
 import { UserFactory } from '~tests/factories';
 
-import {
-  expectAnyError, expectIllegalArgumentError
-} from '../utils/errors';
+import { expectAnyError, expectIllegalArgumentError } from '../utils/errors';
 
 describe('AuthorizingUserService', () => {
   let service: UserService;
@@ -23,10 +16,7 @@ describe('AuthorizingUserService', () => {
   const authServiceMock = mock<AuthenticationService>();
 
   beforeEach(() => {
-    service = new AuthorizingUserService(
-      userRepositoryMock,
-      authServiceMock,
-    );
+    service = new AuthorizingUserService(userRepositoryMock, authServiceMock);
   });
 
   describe('.create', () => {

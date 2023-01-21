@@ -2,10 +2,7 @@ import { faker } from '@faker-js/faker';
 import { getCustomRepository, QueryFailedError } from 'typeorm';
 
 import { SQLUserRepository } from '@/datastore/repositories/user';
-import {
-  CreateUserVariables,
-  UserRepository
-} from '@/interfaces/repository/user';
+import { CreateUserVariables, UserRepository } from '@/interfaces/repository/user';
 import { UserFactory } from '~tests/factories';
 
 import { createRepoTestMethods } from '../utils/repository/setup';
@@ -50,7 +47,6 @@ describe('SQLUserRepository', () => {
       });
     });
   });
-
 
   describe('.findBy', () => {
     describe('with values that does not exist', () => {

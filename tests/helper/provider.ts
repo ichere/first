@@ -4,7 +4,8 @@ import { AuthenticationService, UserService } from '@/interfaces/service';
 import { SignTokenOptions, SignTokenVars } from '@/interfaces/service/auth';
 import {
   CreateUserVariables,
-  LoginVariables, UserReturnVarsWithToken
+  LoginVariables,
+  UserReturnVarsWithToken,
 } from '@/interfaces/service/user';
 import { IProvider } from '@/ioc/provider';
 import { UserFactory } from '~tests/factories';
@@ -14,14 +15,10 @@ export default class TestProvider implements IProvider {
 
   private userService: UserService;
 
-  public constructor(
-    $authService: AuthenticationService,
-    $userService: UserService,
-  ) {
+  public constructor($authService: AuthenticationService, $userService: UserService) {
     this.authService = $authService;
     this.userService = $userService;
   }
-
 
   public getAuthenticationService(): AuthenticationService {
     return this.authService;
@@ -54,7 +51,6 @@ class StubAuthService implements AuthenticationService {
       userId: faker.datatype.number(),
     };
   }
-
 }
 
 class StubUserService implements UserService {

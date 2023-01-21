@@ -2,9 +2,7 @@ import { getCustomRepository } from 'typeorm';
 
 import { SQLUserRepository } from '@/datastore/repositories';
 import { AuthenticationService, UserService } from '@/interfaces/service';
-import {
-  AuthenticationServiceImpl
-} from '@/service';
+import { AuthenticationServiceImpl } from '@/service';
 import { AuthorizingUserService } from '@/service/user';
 
 export interface IProvider {
@@ -18,15 +16,11 @@ class DefaultProvider implements IProvider {
   }
 
   public getUserService(): UserService {
-    return new AuthorizingUserService(
-      getCustomRepository(SQLUserRepository),
-      getAuthService(),
-    );
+    return new AuthorizingUserService(getCustomRepository(SQLUserRepository), getAuthService());
   }
 }
 
 let provider: IProvider = new DefaultProvider();
-
 
 export function getAuthService(): AuthenticationService {
   return provider.getAuthenticationService();
