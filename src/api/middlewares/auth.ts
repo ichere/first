@@ -2,7 +2,6 @@
 
 import { NextFunction, Request, Response } from 'express';
 
-import { getAuthService } from '@/ioc/provider';
 
 import { StatusCode } from '../codes';
 import { expressError } from '../util';
@@ -20,7 +19,6 @@ export async function verifyJWTToken(
         .json({ message: 'Please supply a token in the header' });
 
     const jwtToken = Array.isArray(token) ? token[0] : token;
-    const user = await getAuthService().getAuthenticatedUserFromToken(jwtToken);
     // @ts-ignore
     req.user = user;
     return next();

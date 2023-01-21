@@ -5,10 +5,8 @@ import jwt from 'jsonwebtoken';
 import { UserRepository } from '@/interfaces/repository';
 import { SignTokenVars } from '@/interfaces/service/auth';
 import { AuthenticationServiceImpl } from '@/service';
-import { EntityNotFoundError } from '@/utils/errors';
-import { UserFactory } from '~tests/factories';
 
-import { expectAnyError, expectEntityNotFoundError } from '../utils/errors';
+import { expectAnyError } from '../utils/errors';
 
 describe('AuthenticationServiceImpl', () => {
   const userRepositoryMock = mock<UserRepository>();
@@ -16,8 +14,7 @@ describe('AuthenticationServiceImpl', () => {
 
   const getValidToken = async (): Promise<{ token: string; signVars: SignTokenVars }> => {
     const signVars: SignTokenVars = {
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
+      userName: faker.name.firstName(),
       userId: faker.datatype.number(),
     };
 
@@ -56,8 +53,7 @@ describe('AuthenticationServiceImpl', () => {
   describe('.signToken', () => {
     it('returns a string token', async () => {
       const signVars = {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
+        userName: faker.datatype.string(),
         userId: faker.datatype.number(),
       };
       const token = await authService.signToken(signVars);
@@ -70,8 +66,7 @@ describe('AuthenticationServiceImpl', () => {
       it('returns correct object', async () => {
         const { token, signVars } = await getValidToken();
         const decodedToken = await authService.decodeToken(token);
-        expect(decodedToken.firstName).toBe(signVars.firstName);
-        expect(decodedToken.lastName).toBe(signVars.lastName);
+        expect(decodedToken.userName).toBe(signVars.userName);
         expect(decodedToken.userId).toBe(signVars.userId);
       });
     });
@@ -80,8 +75,8 @@ describe('AuthenticationServiceImpl', () => {
       it('throws Error', async () => {
         const expiredToken = await authService.signToken(
           {
-            firstName: faker.datatype.string(),
-            lastName: faker.datatype.string(),
+            userName: faker.datatype.string(),
+
             userId: faker.datatype.number(),
           },
           { expiresIn: '-1m' },
@@ -100,26 +95,4 @@ describe('AuthenticationServiceImpl', () => {
     });
   });
 
-  describe('.getAuthenticatedUserFromToken', () => {
-    describe('with user that does not exist', () => {
-      it('throws EntityNotFoundError', async () => {
-        const { token, signVars } = await getValidToken();
-        userRepositoryMock.findByIdOrFail
-          .calledWith(signVars.userId)
-          .mockRejectedValue(new EntityNotFoundError(''));
-
-        await expectEntityNotFoundError(authService.getAuthenticatedUserFromToken(token));
-      });
-    });
-
-    describe('with user that exists', () => {
-      it('succeeds', async () => {
-        const { token, signVars } = await getValidToken();
-        const user = UserFactory.build();
-        userRepositoryMock.findByIdOrFail.calledWith(signVars.userId).mockResolvedValue(user);
-        const authenticatedUser = await authService.getAuthenticatedUserFromToken(token);
-        expect(authenticatedUser).toEqual(user);
-      });
-    });
-  });
 });
