@@ -1,8 +1,6 @@
-const isCI = process.env.CI === 'true';
-
 module.exports = {
   clearMocks: true,
-  testTimeout: isCI ? 60000 : 20000, // 1 minute for CI, 20 local
+  testTimeout: 20000,
   collectCoverage: false,
   globals: {
     'ts-jest': {
@@ -11,8 +9,6 @@ module.exports = {
       isolatedModules: true,
     },
   },
-  globalSetup: '<rootDir>/tests/setup/setup.ts',
-  globalTeardown: '<rootDir>/tests/setup/teardown.ts',
   moduleFileExtensions: ['js', 'ts'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
@@ -21,11 +17,7 @@ module.exports = {
   },
   // reporters: ['default', 'github-actions'],
   reporters: ['default'],
-  setupFilesAfterEnv: [
-    'dotenv/config',
-    '<rootDir>/tests/setup/beforeEachTestFile.ts',
-    'jest-extended/all',
-  ],
+  setupFilesAfterEnv: ['dotenv/config', 'jest-extended/all'],
   transform: {
     '^.+\\.ts$': 'ts-jest',
     '^.+\\.js$': 'babel-jest',

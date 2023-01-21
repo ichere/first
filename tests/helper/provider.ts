@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 
+import { User } from '@/datastore/entities';
 import { AuthenticationService, UserService } from '@/interfaces/service';
 import { SignTokenOptions, SignTokenVars } from '@/interfaces/service/auth';
 import {
@@ -8,7 +9,13 @@ import {
   UserReturnVarsWithToken,
 } from '@/interfaces/service/user';
 import { IProvider } from '@/ioc/provider';
-import { UserFactory } from '~tests/factories';
+
+const user = Object.assign(new User(), {
+  userName: faker.name.firstName(),
+  email: faker.internet.email(),
+  password: faker.internet.password(),
+  id: faker.datatype.number(),
+});
 
 export default class TestProvider implements IProvider {
   private authService: AuthenticationService;
@@ -55,7 +62,6 @@ class StubAuthService implements AuthenticationService {
 
 class StubUserService implements UserService {
   public async login(_login: LoginVariables): Promise<UserReturnVarsWithToken> {
-    const user = UserFactory.build();
     return {
       id: user.id,
       userName: user.userName,
@@ -65,7 +71,6 @@ class StubUserService implements UserService {
   }
 
   public async create(_vars: CreateUserVariables): Promise<UserReturnVarsWithToken> {
-    const user = UserFactory.build();
     return {
       id: user.id,
       userName: user.userName,

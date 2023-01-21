@@ -17,11 +17,9 @@ describe('USER API TEST', () => {
     describe('with invalid input', () => {
       it('fails with BAD_REQUEST', async () => {
         const response = await request(app).post(`${BASE_ENDPOINT}`).send({
-          firstName: '',
-          lastName: '',
+          userName: '',
           email: '',
           password: '',
-          phoneNumber: '',
         });
         expect(response.statusCode).toBe(StatusCode.BadRequest);
       });
@@ -29,15 +27,11 @@ describe('USER API TEST', () => {
 
     describe('with valid input', () => {
       it('succeeds', async () => {
-        const response = await request(app)
-          .post(`${BASE_ENDPOINT}`)
-          .send({
-            firstName: faker.name.firstName(),
-            lastName: faker.name.lastName(),
-            email: faker.internet.email(),
-            password: faker.internet.password(),
-            phoneNumber: faker.phone.number('+2348#########'),
-          });
+        const response = await request(app).post(`${BASE_ENDPOINT}`).send({
+          userName: faker.name.firstName(),
+          email: faker.internet.email(),
+          password: faker.internet.password(),
+        });
         expect(response.statusCode).toBe(StatusCode.Success);
       });
     });

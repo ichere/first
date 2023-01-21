@@ -15,6 +15,7 @@ export class User {
   @Column('character varying', {
     length: 256,
     comment: "The user's userName",
+    unique: true,
   })
   userName: string;
 

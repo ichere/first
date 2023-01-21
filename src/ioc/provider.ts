@@ -12,7 +12,7 @@ export interface IProvider {
 
 class DefaultProvider implements IProvider {
   public getAuthenticationService(): AuthenticationService {
-    return new AuthenticationServiceImpl(getCustomRepository(SQLUserRepository));
+    return new AuthenticationServiceImpl();
   }
 
   public getUserService(): UserService {

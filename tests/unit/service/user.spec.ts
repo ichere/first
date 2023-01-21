@@ -1,12 +1,12 @@
 import { faker } from '@faker-js/faker';
 import { mock } from 'jest-mock-extended';
 
+import { User } from '@/datastore/entities';
 import { UserRepository } from '@/interfaces/repository';
 import { AuthenticationService, UserService } from '@/interfaces/service';
 import { CreateUserVariables, LoginVariables } from '@/interfaces/service/user';
 import { AuthorizingUserService } from '@/service/user';
 import { AuthenticationError } from '@/utils/errors';
-import { UserFactory } from '~tests/factories';
 
 import { expectAnyError, expectIllegalArgumentError } from '../utils/errors';
 
@@ -14,6 +14,13 @@ describe('AuthorizingUserService', () => {
   let service: UserService;
   const userRepositoryMock = mock<UserRepository>();
   const authServiceMock = mock<AuthenticationService>();
+
+  const user = Object.assign(new User(), {
+    userName: faker.name.firstName(),
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    id: faker.datatype.number(),
+  });
 
   beforeEach(() => {
     service = new AuthorizingUserService(userRepositoryMock, authServiceMock);
@@ -32,7 +39,7 @@ describe('AuthorizingUserService', () => {
 
     describe('with email that exists', () => {
       it('throws IllegalArgumentError', async () => {
-        userRepositoryMock.findBy.mockResolvedValue(UserFactory.build());
+        userRepositoryMock.findBy.mockResolvedValue(Object.assign(new User()));
         await expectIllegalArgumentError(service.create(createVars));
       });
     });
@@ -43,7 +50,6 @@ describe('AuthorizingUserService', () => {
         authServiceMock.encrypt.mockResolvedValue(encryptedPassword);
         userRepositoryMock.findBy.mockResolvedValue(undefined);
 
-        const user = UserFactory.build();
         userRepositoryMock.create.mockResolvedValue(user);
         await service.create(createVars);
 
@@ -82,7 +88,7 @@ describe('AuthorizingUserService', () => {
     describe('with email that exists', () => {
       describe('with wrong password', () => {
         it('throws AuthenticationError', async () => {
-          userRepositoryMock.findBy.mockResolvedValue(UserFactory.build());
+          userRepositoryMock.findBy.mockResolvedValue(user);
           authServiceMock.verify.mockResolvedValue(false);
           await expectAnyError(service.login(loginVars), AuthenticationError);
         });
@@ -90,7 +96,6 @@ describe('AuthorizingUserService', () => {
 
       describe('with correct password', () => {
         it('succeeds', async () => {
-          const user = UserFactory.build();
           userRepositoryMock.findBy.mockResolvedValue(user);
           authServiceMock.verify.mockResolvedValue(true);
           authServiceMock.signToken.mockResolvedValue(token);

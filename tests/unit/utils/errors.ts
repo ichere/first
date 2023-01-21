@@ -1,12 +1,4 @@
-import { EntityNotFoundError, IllegalArgumentError, PermissionDenied } from '@/utils/errors';
-
-export function expectPermissionDeniedError(action: Promise<unknown>): Promise<void> {
-  return expect(action).rejects.toBeInstanceOf(PermissionDenied);
-}
-
-export function expectEntityNotFoundError(action: Promise<unknown>): Promise<void> {
-  return expect(action).rejects.toBeInstanceOf(EntityNotFoundError);
-}
+import { IllegalArgumentError } from '@/utils/errors';
 
 export async function expectIllegalArgumentError(
   action: Promise<unknown> | (() => Promise<unknown> | unknown),
